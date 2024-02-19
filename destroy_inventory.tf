@@ -1,4 +1,4 @@
-resource "null_resourece" "cleanUpInventory"{
+resource "null_resource" "cleanUpInventory"{
 
        
         provisioner = "local-exec" {
