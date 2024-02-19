@@ -1,8 +1,8 @@
 resource "null_resourece" "cleanUpInventory"{
 
-        when = destroy
+       
         provisioner = "local-exec" {
-
+         when = destroy
         command = "rm -f inventory"
 
 }
