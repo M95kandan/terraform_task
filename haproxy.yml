@@ -1,0 +1,32 @@
+
+# haproxy.yml
+
+---
+- name: Install HAProxy with Config File
+  hosts: haproxy
+  remote_user: ec2-user
+  become: true
+
+  tasks:
+    - name: Install HAProxy (for Red Hat/CentOS)
+      yum:
+        name: "haproxy"
+        state: present
+
+    - name: Copy HAProxy config file
+      template:
+        src: "/root/Iac/haproxy.cfg.j2"
+        dest: "/etc/haproxy/haproxy.cfg"
+      notify: Restart HAProxy
+
+    - name: Enable and start HAProxy service (systemd)
+      systemd:
+        name: haproxy
+        enabled: yes
+        state: started
+
+  handlers:
+    - name: Restart HAProxy
+      service:
+        name: haproxy
+        state: restarted
