@@ -1,0 +1,41 @@
+
+---
+- name: Install Apache HTTPD and PHP on Amazon Linux
+  hosts: backend
+  remote_user: ec2-user
+  become: true
+
+  tasks:
+    - name: Install Apache HTTPD and PHP (for Amazon Linux)
+      yum:
+        name:
+          - httpd
+          - php
+        state: present
+      when: "'Amazon' in ansible_os_family"
+
+    - name: Install Apache HTTPD and PHP (for Red Hat/CentOS)
+      yum:
+        name:
+          - httpd
+          - php
+        state: present
+      when: "'RedHat' in ansible_os_family"
+
+    - name: Copy PHP code template
+      template:
+        src: /root/index.php
+        dest: /var/www/html/index.php
+      notify: Restart Apache
+
+    - name: Enable and start Apache service (systemd)
+      systemd:
+        name: httpd
+        enabled: yes
+        state: started
+
+  handlers:
+    - name: Restart Apache
+      service:
+        name: httpd
+        state: restarted
