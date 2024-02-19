@@ -1,0 +1,15 @@
+# haproxy.cfg.j2
+
+frontend main
+    bind *:8080
+    timeout client 10s
+    default_backend app
+
+#---------------------------------------------------------------------
+# round robin balancing between the various backends
+#---------------------------------------------------------------------
+backend app
+    balance roundrobin
+    {% for ip in groups['backend'] %}
+    server {{ loop.index }} {{ ip }}:80
+    {% endfor %}
