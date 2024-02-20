@@ -7,7 +7,7 @@ resource "aws_instance" "backend" {
   vpc_security_group_ids = [aws_security_group.xpb_sg.id]
 
   tags = {
-    Name   = "xpayback"
+    Name   = "xpayback$(count.index)"
     depart = "backend"
   }
 }
