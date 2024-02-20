@@ -1,7 +1,7 @@
 data "aws_ami" "findingAmi" {
   
   most_recent      = true
-  owners           = ["self"]
+  owners           = ["amazon"]
 
   filter {
     name   = "name"
