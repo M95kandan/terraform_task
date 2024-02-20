@@ -1,6 +1,6 @@
 
 resource "aws_instance" "backend" {
-  ami           = "ami-0449c34f967dbf18a"
+  ami           = data.aws_ami.findingAmi.id
   instance_type = "t2.micro"
   count         = 2
   key_name      = "xpb_key"
@@ -13,7 +13,7 @@ resource "aws_instance" "backend" {
 }
 
 resource "aws_instance" "haproxy" {
-  ami           = "ami-0449c34f967dbf18a"
+  ami           = data.aws_ami.findingAmi.id
   instance_type = "t2.micro"
   count         = 1
   key_name      = "xpb_key"
